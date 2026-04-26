@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { useStore } from './context/StoreContext';
 import './index.css';
 
+// Pages
+import Home from './pages/Home';
+import Members from './pages/Members';
+
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { isAdmin, setIsAdmin } = useStore();
+  const location = useLocation();
 
   return (
     <div className="app">
@@ -11,9 +18,10 @@ function App() {
           <div className="flex items-center gap-4">
             <span className="text-subhead" style={{ color: 'var(--color-primary)' }}>⚽ SoccerClub</span>
             <div className="nav-links">
-              <a href="#" className="nav-link active">홈</a>
-              <a href="#" className="nav-link">스쿼드 구성</a>
-              <a href="#" className="nav-link">기록실</a>
+              <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>홈</Link>
+              <Link to="/members" className={`nav-link ${location.pathname === '/members' ? 'active' : ''}`}>회원 명단</Link>
+              <Link to="/squad" className={`nav-link ${location.pathname === '/squad' ? 'active' : ''}`}>스쿼드 편성</Link>
+              <Link to="/records" className={`nav-link ${location.pathname === '/records' ? 'active' : ''}`}>기록실</Link>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -35,35 +43,12 @@ function App() {
       </nav>
 
       <main className="container mt-8">
-        <header className="mb-4">
-          <h1 className="text-headline">축구 동호회 관리 시스템</h1>
-          <p className="text-body" style={{ color: 'var(--color-text-secondary)', marginTop: '8px' }}>
-            {isAdmin 
-              ? '관리자 모드입니다. 전체 회원 관리 및 스쿼드 편성을 할 수 있습니다.' 
-              : '새로운 경기 일정에 참석 투표를 하고, 기록을 확인해 보세요.'}
-          </p>
-        </header>
-
-        <div className="flex gap-4 mt-8">
-          <div className="card interactive p-6" style={{ flex: 1 }}>
-            <h2 className="text-section mb-4">다음 경기 투표</h2>
-            <p className="text-body mb-4" style={{ color: 'var(--color-text-secondary)' }}>
-              2026년 5월 1일 (금) 19:00 vs FC 강남
-            </p>
-            <div className="flex gap-2">
-              <button className="btn btn-primary btn-md">참석하기</button>
-              <button className="btn btn-secondary btn-md">불참</button>
-            </div>
-          </div>
-          
-          <div className="card interactive p-6" style={{ flex: 1 }}>
-            <h2 className="text-section mb-4">현재 스쿼드</h2>
-            <p className="text-body mb-4" style={{ color: 'var(--color-text-secondary)' }}>
-              1쿼터 스쿼드가 편성되었습니다.
-            </p>
-            <button className="btn btn-secondary btn-md">스쿼드 확인하기</button>
-          </div>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/squad" element={<div className="text-section mt-8">스쿼드 기능 개발 중...</div>} />
+          <Route path="/records" element={<div className="text-section mt-8">기록실 기능 개발 중...</div>} />
+        </Routes>
       </main>
     </div>
   );
