@@ -86,6 +86,29 @@ export const StoreProvider = ({ children }) => {
     }));
   };
 
+  const finishMatch = (matchId, score, playerStats) => {
+    // 1. 경기 상태 업데이트
+    setMatches(prev => prev.map(m => m.id === matchId ? { ...m, status: 'completed', score } : m));
+    
+    // 2. 출장 수(투표 'attending' 기반) 및 스탯 업데이트
+    const matchVotes = votes[matchId] || {};
+    setMembers(prev => prev.map(m => {
+      const isAttending = matchVotes[m.id] === 'attending';
+      const statsDelta = playerStats[m.id] || { goals: 0, assists: 0 };
+      
+      if (!isAttending && !statsDelta.goals && !statsDelta.assists) return m;
+
+      return {
+        ...m,
+        stats: {
+          matchesPlayed: m.stats.matchesPlayed + (isAttending ? 1 : 0),
+          goals: m.stats.goals + (statsDelta.goals || 0),
+          assists: m.stats.assists + (statsDelta.assists || 0)
+        }
+      };
+    }));
+  };
+
   const value = {
     isAdmin,
     setIsAdmin,
@@ -98,6 +121,7 @@ export const StoreProvider = ({ children }) => {
     handleVote,
     squads,
     updateSquad,
+    finishMatch,
   };
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
