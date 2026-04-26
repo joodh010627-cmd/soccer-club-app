@@ -6,6 +6,7 @@ import './index.css';
 // Pages
 import Home from './pages/Home';
 import Members from './pages/Members';
+import Squad from './pages/Squad';
 
 function App() {
   const { isAdmin, setIsAdmin } = useStore();
@@ -46,7 +47,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/members" element={<Members />} />
-          <Route path="/squad" element={<div className="text-section mt-8">스쿼드 기능 개발 중...</div>} />
+          <Route path="/squad" element={<Squad />} />
           <Route path="/records" element={<div className="text-section mt-8">기록실 기능 개발 중...</div>} />
         </Routes>
       </main>

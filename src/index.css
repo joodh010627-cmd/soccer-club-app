@@ -231,7 +231,87 @@ code {
 }
 .nav-link:hover, .nav-link.active {
   color: var(--color-text-primary);
-  background-color: var(--color-border); /* alt bg */
+  background-color: var(--color-border);
+}
+
+/* Field */
+.field {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 2 / 3;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-lg);
+  border: 4px solid rgba(255,255,255,0.7);
+  margin: 0 auto;
+  overflow: hidden;
+}
+.field-line-center {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255,255,255,0.5);
+}
+.field-circle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.field-box-top, .field-box-bottom {
+  position: absolute;
+  left: 50%;
+  width: 200px;
+  height: 60px;
+  border: 2px solid rgba(255,255,255,0.5);
+  transform: translateX(-50%);
+}
+.field-box-top { top: 0; border-top: none; }
+.field-box-bottom { bottom: 0; border-bottom: none; }
+
+.player-spot {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+.player-spot:hover {
+  background-color: rgba(255,255,255,0.5);
+}
+.player-spot.selected {
+  border-color: var(--color-surface);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.player-spot.filled {
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-hover);
+}
+.player-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+.player-position-label {
+  position: absolute;
+  bottom: -20px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
 }
 
 /* Other utils */
@@ -243,5 +323,6 @@ code {
 .mt-4 { margin-top: var(--space-4); }
 .mt-8 { margin-top: var(--space-8); }
 .mb-4 { margin-bottom: var(--space-4); }
+.mb-8 { margin-bottom: var(--space-8); }
 .p-4 { padding: var(--space-4); }
 .p-6 { padding: var(--space-6); }

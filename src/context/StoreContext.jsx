@@ -25,6 +25,10 @@ export const StoreProvider = ({ children }) => {
     const saved = localStorage.getItem('soccer_votes');
     return saved ? JSON.parse(saved) : {};
   });
+  const [squads, setSquads] = useState(() => {
+    const saved = localStorage.getItem('soccer_squads');
+    return saved ? JSON.parse(saved) : {};
+  });
 
   // 상태 변경 시 LocalStorage 저장
   useEffect(() => {
@@ -38,6 +42,10 @@ export const StoreProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('soccer_votes', JSON.stringify(votes));
   }, [votes]);
+
+  useEffect(() => {
+    localStorage.setItem('soccer_squads', JSON.stringify(squads));
+  }, [squads]);
 
   // 회원 추가
   const addMember = (name) => {
@@ -68,6 +76,16 @@ export const StoreProvider = ({ children }) => {
     setMatches(prev => [...prev, { ...newMatch, id: Date.now().toString(), status: 'scheduled' }]);
   };
 
+  const updateSquad = (matchId, quarter, data) => {
+    setSquads(prev => ({
+      ...prev,
+      [matchId]: {
+        ...(prev[matchId] || {}),
+        [quarter]: data
+      }
+    }));
+  };
+
   const value = {
     isAdmin,
     setIsAdmin,
@@ -78,6 +96,8 @@ export const StoreProvider = ({ children }) => {
     addMatch,
     votes,
     handleVote,
+    squads,
+    updateSquad,
   };
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
